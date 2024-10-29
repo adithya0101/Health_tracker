@@ -13,7 +13,7 @@ from .forms import FoodForm, ImageForm
 
 def index(request):
     '''
-    The default route which lists all food items
+default route,lists all food items
     '''
     return food_list_view(request)
 
@@ -32,7 +32,7 @@ def register(request):
                 'categories': FoodCategory.objects.all()
             })
 
-        # Attempt to create new user
+        # creating new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
@@ -52,12 +52,12 @@ def register(request):
 def login_view(request):
     if request.method == 'POST':
 
-        # Attempt to sign user in
+        # User Sign in attempt
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
-        # Check if authentication successful
+        # Check if authentication successful or not
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse('index'))
@@ -79,7 +79,7 @@ def logout_view(request):
 
 def food_list_view(request):
     '''
-    It renders a page that displays all food items
+   Creates a page that displays all food items
     Food items are paginated: 4 per page
     '''
     foods = Food.objects.all()
@@ -124,7 +124,7 @@ def food_details_view(request, food_id):
 @login_required
 def food_add_view(request):
     '''
-    It allows the user to add a new food item
+    allows the user to add a new food item
     '''
     ImageFormSet = forms.modelformset_factory(Image, form=ImageForm, extra=2)
 
@@ -300,3 +300,5 @@ def category_details_view(request, category_name):
         'pages': pages,
         'title': category.category_name
     })
+
+
