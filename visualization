@@ -1,0 +1,39 @@
+import matplotlib.pyplot as plt
+
+def plot_meal_timing(meals, planned_times, actual_entries):
+# Set up
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.set_ylim(6, 24)  # Y-axis covers 6 AM to midnight
+    ax.set_xlim(-0.5, len(meals) - 0.5)  # X-axis spans meal categories
+    ax.set_yticks(range(6, 25))  # Y-axis ticks for each hour
+
+    #vertical lines to divide meal categories
+    for i in range(len(meals)):
+        ax.axvline(x=i - 0.5, color='gray', linestyle='--', linewidth=0.5)
+
+    # planned meal times as horizontal lines
+    for i, time in enumerate(planned_times):
+        if time:
+            ax.hlines(time, i - 0.4, i + 0.4, colors='green', linestyles='dashed', label="Planned Time" if i == 0 else "")
+
+    # actual meal times as points with food item labels
+    for i, entries in actual_entries.items():
+        for time, food_item in entries:
+            ax.scatter(i, time, color='blue', label="Actual Time" if i == 0 else "")
+            if food_item:
+                ax.text(i, time + 0.2, food_item, color='black', fontsize=9, ha='center', va='bottom')
+
+    # labels, legend, grid
+    ax.set_xticks(range(len(meals)))
+    ax.set_xticklabels(meals)
+    ax.set_ylabel("Time of Day (24-hour format)")
+    ax.set_title("Meal Timing Analysis")
+    ax.legend(loc='upper left')
+    ax.grid(axis='y', linestyle='--', alpha=0.6)
+
+   
+    plt.tight_layout()
+    plt.show()
+
+
+
